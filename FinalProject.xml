@@ -1,0 +1,1514 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FinalProject</name>
+    </assembly>
+    <members>
+        <member name="T:FinalProject.Bullet">
+            <summary>
+            Base Class for all bullet objects
+            </summary>
+        </member>
+        <member name="P:FinalProject.Bullet.ExpiryX">
+            <summary>
+            Sets how long the bullet will fly before it expries and dies on its own
+            </summary>
+        </member>
+        <member name="P:FinalProject.Bullet.Speed">
+            <summary>
+            Per-Game-Tick speed of bullet
+            </summary>
+        </member>
+        <member name="P:FinalProject.Bullet.Damage">
+            <summary>
+            Damage bullet does to objects
+            </summary>
+        </member>
+        <member name="P:FinalProject.Bullet.Dead">
+            <summary>
+            Manual setting of the bullets dead status. used when the bullet reaches its expiry location
+            </summary>
+        </member>
+        <member name="M:FinalProject.Bullet.#ctor(System.Single,System.Single,FinalProject.EntityName,System.Single)">
+            <summary>
+            Constructor. Can be used by child bullets to initialise common fields.
+            </summary>
+            <param name="x">X Coordinate of Bullet</param>
+            <param name="y">Y Coordinate of Bullet</param>
+            <param name="bitmapName">Enum of Bitmap file name for respective bullet</param>
+            <param name="speed">Per-Game-Tick speed of bullet</param>
+        </member>
+        <member name="M:FinalProject.Bullet.IsDead">
+            <summary>
+            Bullet will return false if it has reached its expiry locaiton or hit a zombie
+            </summary>
+            <returns>Returns boolean dependant on if bullet is has fuffliled a death condition</returns>
+        </member>
+        <member name="T:FinalProject.SnowBullet">
+            <summary>
+            Bullet shot by snow shooter plants. slows zombies on collision
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowBullet.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructor. Initialise the bullet objects location and speed
+            </summary>
+            <param name="x">X Coordinate of Bullet</param>
+            <param name="y">Y Coordinate of Bullet</param>
+            <param name="speed">Per-Game-Tick speed of bullet</param>
+        </member>
+        <member name="M:FinalProject.SnowBullet.Draw">
+            <summary>
+            Renders bullet to screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowBullet.Update">
+            <summary>
+            Updates bullets location
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowBullet.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implementes the bullets collision functionality. in this case all entites this bullet collides with will kill the entity.
+            </summary>
+            <param name="collidedWith">dynamic entity that snow bullet collided with</param>
+        </member>
+        <member name="T:FinalProject.StandardBullet">
+            <summary>
+            Most Basic kind of bullet. will be created when plant objects 'shoot'.
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardBullet.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructor. Initialises Standard bullet object and sets all fields
+            </summary>
+            <param name="x">X Coordinate of Bullet</param>
+            <param name="y">Y Coordinate of Bullet</param>
+            <param name="speed">Per-Game-Tick speed of bullet</param>
+        </member>
+        <member name="M:FinalProject.StandardBullet.Draw">
+            <summary>
+            Draws bullet object to screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardBullet.Update">
+            <summary>
+            Updates bullet objects postiion
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardBullet.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements bullets actions when collided with another relevant game object E.g. Zombies
+            </summary>
+            <param name="collidedWith">The dynamic entity that this bullet collided with</param>
+        </member>
+        <member name="T:FinalProject.EntityCollisionEngine">
+            <summary>
+            In Charge of detecting all collision within the game and delegating collision functionality to those classes.
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityCollisionEngine._entityCollisionMatrix">
+            <summary>
+            Entitiy Collision Matrix defines what entities can collide with eachother. Similar to the collision matrix seen in the unity engine
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityCollisionEngine.#ctor">
+            <summary>
+            Initialises which entities can collide together. If a new entity is created it needs to be added here
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityCollisionEngine.Collide">
+            <summary>
+            Detects Collision Between Entities that coexist on the CollisionMatrix and delegates further collision functionality to the respective objects
+            </summary>
+        </member>
+        <member name="T:FinalProject.EntityFactory">
+            <summary>
+            Controls all entity creation in the game. When an entity is created, it is added to the Repositories list so that it can be updates in the game loop.
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnIcon``1(System.Single,System.Single)">
+            <summary>
+            Spawns the various icons in the game and adds result to repository list
+            </summary>
+            <typeparam name="T">Generic Icon Type</typeparam>
+            <param name="x">x coordinate of Icon</param>
+            <param name="y">y coordinate of Icon</param>
+            <returns>Returns created Icon</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnPlant``1(System.Single,System.Single)">
+            <summary>
+            Spawns the various plants in the game and adds result to repository list
+            </summary>
+            <typeparam name="T">Generic Plant Type</typeparam>
+            <param name="x">x coordinate of Plant</param>
+            <param name="y">y coordinate of Plant</param>
+            <returns>Returns created Plant</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnBullet``1(System.Single,System.Single,System.Single)">
+            <summary>
+            Spawns the various bullets in the game and adds result to the repository list
+            </summary>
+            <typeparam name="T">Generic Bullet Type</typeparam>
+            <param name="x">x coordinate of Bullet</param>
+            <param name="y">y coordinate of Bullet</param>
+            <param name="firespeed">Firespeed of Bullet</param>
+            <returns>Returns created Bullet</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnCell(System.Single,System.Single)">
+            <summary>
+            Creates a cell object that is returned
+            </summary>
+            <param name="x">X Coordinate of Entity</param>
+            <param name="y">Y Coordinate of Entity</param>
+            <returns>returns the cell that is created</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnZombie``1(System.Single)">
+            <summary>
+            Creates a various zombies that is then registered to the Repostitory List
+            </summary>
+            <param name="y">y coordinate of zombie</param>
+            <returns>returns new zombie object</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnLawnmower(System.Single)">
+            <summary>
+            Creates the Lawnmower objects in the game
+            </summary>
+            <param name="y">y coordinate of lawnmower</param>
+            <returns>returns new Lawnmower object</returns>
+        </member>
+        <member name="M:FinalProject.EntityFactory.SpawnSun(System.Single,System.Single)">
+            <summary>
+            Creates a new falling sun object in the game and registers its existance to the repository list
+            </summary>
+            <param name="x">x coordinate of Sun</param>
+            <param name="y">y coordinate of Sun</param>
+            <returns>returns new Sun Object</returns>
+        </member>
+        <member name="T:FinalProject.EntityRenderer">
+            <summary>
+            In charge of rendering all entities within the game.
+            In the Model-View-Controller Pattern this classes acts as the view portion.
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityRenderer.Render">
+            <summary>
+            Renders all game entities. Each entity is responsible for its own rendering functionality
+            </summary>
+        </member>
+        <member name="T:FinalProject.EntityRepository">
+            <summary>
+            Mixture of both the Repository and Singleton pattern
+            Entity repository acts as a central storage for all current entities within the game, ensuring that only one copy of each entitiy exists and all entites are updated/rendered only once per game loop.
+            Can be accessed by other classes where needed.
+            Within a model-view-controller pattern this class acts as the model database
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityRepository._instance">
+            <summary>
+            Singleton Instance of Repository
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityRepository._entities">
+            <summary>
+            List of entites active in the game
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityRepository._dynamicEntityLayers">
+            <summary>
+            List of Dynamic entities within the game, The order of the dictionary is the order that entities are rendered
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityRepository._grid">
+            <summary>
+            Game grid that the game takes place on
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityRepository.CreateInstance">
+            <summary>
+            Creates/intialises Singleton instance
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityRepository.GetInstance">
+            <summary>
+            Allows the entities of the game to access the Repository instance in order to use its functionality
+            This means that there will be only 1 global Repository created in the game
+            </summary>
+            <returns> Returns the instance of the singleton global repository object</returns>
+        </member>
+        <member name="M:FinalProject.EntityRepository.#ctor">
+            <summary>
+            Constructor. Initialises the repositories list of Entities
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityRepository.GetEntityAt``1(System.Single,System.Single)">
+            <summary>
+            Generic Method that finds any entites located at a specific point and returns them to the caller
+            </summary>
+            <typeparam name="T">Generic entity type</typeparam>
+            <param name="x">x coordinate to be searched</param>
+            <param name="y">y coordinate to be searched</param>
+            <returns>returns a list of object found at the point</returns>
+        </member>
+        <member name="M:FinalProject.EntityRepository.CellAt(System.Single,System.Single)">
+            <summary>
+            Wrapper method for Grid's CellAt function
+            </summary>
+            <param name="x">x coordinate of query</param>
+            <param name="y">y corrdinate of query</param>
+            <returns>returns any found cells at location</returns>
+        </member>
+        <member name="M:FinalProject.EntityRepository.RowAt(System.Int32)">
+            <summary>
+            Wrapper method for Grid's RowAt function
+            </summary>
+            <param name="y">Grid Row in question (Min 0 - Max 3)</param>
+            <returns>retuns y coordinate of the Grid row provided</returns>
+        </member>
+        <member name="M:FinalProject.EntityRepository.GetCell(System.Int32,System.Int32)">
+            <summary>
+            Wrapper method for Grid's GetCell function
+            </summary>
+            <param name="r">row desired</param>
+            <param name="c">column desired</param>
+            <returns>returns given cell</returns>
+        </member>
+        <member name="T:FinalProject.EntityUpdater">
+            <summary>
+            Incharge of updating all entities within the game. Follows singleton pattern
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityUpdater._instance">
+            <summary>
+            Singleton Instnace of EntityUpdater
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityUpdater._entitiesToBeAdded">
+            <summary>
+            List of entities that need to be added to repository on next game loop
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityUpdater._dynamicEntitiesToBeAdded">
+            <summary>
+            List of entities that need to be added to repository on next game loop
+            </summary>
+        </member>
+        <member name="F:FinalProject.EntityUpdater._dynamicEntitiesToBeRemoved">
+            <summary>
+            List of entities that need to be removed from repository on next game loop
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityUpdater.#ctor">
+            <summary>
+            Constructor. Initialises Entity Updater and queue lists
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityUpdater.CreateInstance">
+            <summary>
+            Creates singleton insance of EntityUpdater
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityUpdater.Update">
+            <summary>
+            Updates all entities in the game.
+            Including flagging and removing dead entities
+            </summary>
+        </member>
+        <member name="M:FinalProject.EntityUpdater.RegisterEntity(FinalProject.Entity)">
+            <summary>
+            Adds newly created entity to its list
+            </summary>
+            <param name="e"> entity that has been created</param>
+        </member>
+        <member name="M:FinalProject.EntityUpdater.RegisterDynamicEntity(FinalProject.DynamicEntity)">
+            <summary>
+            Adds newly created dynamic entity to its list
+            </summary>
+            <param name="e">dynamic entity that has been created</param>
+        </member>
+        <member name="T:FinalProject.EntityName">
+            <summary>
+            enumeration of all bitmap names used in the game.
+            The order of the enum determines the order entities are rendered.
+            Negative values are entities and positive/zero values are dynamic entities
+            </summary>
+        </member>
+        <member name="T:FinalProject.PlantTypes">
+            <summary>
+            Enum of the different plant types and their respective prices
+            </summary>
+        </member>
+        <member name="T:FinalProject.ToolType">
+            <summary>
+            Enum of the different Tool types
+            </summary>
+        </member>
+        <member name="T:FinalProject.Cell">
+            <summary>
+            Cells are simply the discrete coordinate grass map that is seen during gameplay
+            </summary>
+        </member>
+        <member name="P:FinalProject.Cell.Occupied">
+            <summary>
+            Bool defining if the current cell is being used by a plant object
+            </summary>
+        </member>
+        <member name="M:FinalProject.Cell.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Defines the cells x y position
+            </summary>
+            <param name="x">X Coordinate of Cell</param>
+            <param name="y">Y Coordinate of Cell</param>
+        </member>
+        <member name="M:FinalProject.Cell.Draw">
+            <summary>
+            Draws the cell to the screen with a small black outline
+            </summary>
+        </member>
+        <member name="T:FinalProject.DynamicEntity">
+            <summary>
+            Dynamic entities are entities that move or require their fields to be updated in someway
+            </summary>
+        </member>
+        <member name="M:FinalProject.DynamicEntity.#ctor(System.Single,System.Single,FinalProject.EntityName)">
+            <summary>
+            Constructor. Initialises the DynamicEntities bitmap and x/y position
+            </summary>
+            <param name="x">X Coordinate of Entity</param>
+            <param name="y">Y Coordinate of Entity</param>
+            <param name="bitmapName">Enum of Bitmap file name for respective object</param>
+        </member>
+        <member name="M:FinalProject.DynamicEntity.Update">
+            <summary>
+            Updates the dynamic entity. To be implemented by child classes
+            </summary>
+        </member>
+        <member name="M:FinalProject.DynamicEntity.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Defines the behaviour of the entity when it is collided with other entitys. will be implemented in child classes
+            </summary>
+            <param name="collidedWith">The Dynamic Entity that has collided with this entity</param>
+        </member>
+        <member name="M:FinalProject.DynamicEntity.IsDead">
+            <summary>
+            Checks if the entity is dead. If not then it will be removed on the next game loop
+            </summary>
+            <returns>Returns bool of the entities dead status 0 if alive 1 if dead</returns>
+        </member>
+        <member name="T:FinalProject.Entity">
+            <summary>
+            Entity is the base class of all object in the game
+            They have both an x and y coordinate and a bitmap refrence so they they can be drawn to the screen,
+            Drawing functionality will be implemented by child classes
+            </summary>
+        </member>
+        <member name="P:FinalProject.Entity.EntityName">
+            <summary>
+            Enum of Bitmap file name for respective object
+            </summary>
+        </member>
+        <member name="P:FinalProject.Entity.X">
+            <summary>
+            X Coordinate of Entity
+            </summary>
+        </member>
+        <member name="P:FinalProject.Entity.Y">
+            <summary>
+            Y Coordinate of Entity
+            </summary>
+        </member>
+        <member name="M:FinalProject.Entity.#ctor(System.Single,System.Single,FinalProject.EntityName)">
+            <summary>
+            Constructor. Initialises X, Y and BitMap information
+            </summary>
+            <param name="x">X Coordinate of Entity</param>
+            <param name="y">Y Coordinate of Entity</param>
+            <param name="bitmapName">Enum of Bitmap file name for respective object</param>
+        </member>
+        <member name="M:FinalProject.Entity.Draw">
+            <summary>
+            Draws respective Entity to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.Entity.TryCast``1(``0@)">
+            <summary>
+            Generic function attempting to cast the object as a more specialised entity class.
+            </summary>
+            <typeparam name="T">Entity class to be casted to</typeparam>
+            <param name="result">if casting is successful result can be used by calling function</param>
+            <returns>returns boolean on if casting is successful</returns>
+        </member>
+        <member name="T:FinalProject.Grid">
+            <summary>
+            Grid contains the grass grid that plants are placed on. it is simply a grid of 4x9 cells however allows plants to be placed at discrete coordinates.
+            </summary>
+        </member>
+        <member name="F:FinalProject.Grid._grid">
+            <summary>
+            2D array of cells that make up the grid
+            </summary>
+        </member>
+        <member name="M:FinalProject.Grid.#ctor">
+            <summary>
+            Constructor. Initialises the cells to be used in the grid
+            </summary>
+        </member>
+        <member name="M:FinalProject.Grid.CellAt(System.Single,System.Single)">
+            <summary>
+            Checks what cell is at a continuous point and returns relevant cell
+            </summary>
+            <param name="x">X Coordinate of Entity</param>
+            <param name="y">Y Coordinate of Entity</param>
+            <returns>Returns the cell located at the provided x and y coordinate</returns>
+        </member>
+        <member name="M:FinalProject.Grid.RowAt(System.Int32)">
+            <summary>
+            returns the float location of a given integer grid row
+            </summary>
+            <param name="y">the row of the grid that is desired</param>
+            <returns>returns the y coordinate of the provided row</returns>
+        </member>
+        <member name="M:FinalProject.Grid.GetCell(System.Int32,System.Int32)">
+            <summary>
+            Takes 2 integer values and returns the cell at that row and column
+            </summary>
+            <param name="i">row of desired cell</param>
+            <param name="j">column of desired cell</param>
+            <returns>returns cell found at given row and column</returns>
+        </member>
+        <member name="T:FinalProject.Lawnmower">
+            <summary>
+            Lawnmowers are the single use entities at the edge of the map that on a zombie collision activate and kill all zombies in a given row
+            </summary>
+        </member>
+        <member name="F:FinalProject.Lawnmower._activated">
+            <summary>
+            Boolean dictating if the lawnmower is activated, if so it will start moving during the update loop
+            </summary>
+        </member>
+        <member name="F:FinalProject.Lawnmower._speed">
+            <summary>
+            per game tick speed of lawnmower
+            </summary>
+        </member>
+        <member name="M:FinalProject.Lawnmower.#ctor(System.Single)">
+            <summary>
+            Constructor. Initialises the lawnmowers activation status and speed
+            </summary>
+            <param name="y">y coordinate of lawnmower</param>
+        </member>
+        <member name="M:FinalProject.Lawnmower.Draw">
+            <summary>
+            Renders the lawnmower to the screen.
+            </summary>
+        </member>
+        <member name="M:FinalProject.Lawnmower.IsDead">
+            <summary>
+            Returns boolean dependant on if the lawnmover is dead and needs to be removed on the next game loop.
+            The lawnmover is declared dead if it is off the right hand side of the window bounds.
+            </summary>
+            <returns>returns boolean dependant on if the lawnmower is dead (1 if dead, 0 if alive)</returns>
+        </member>
+        <member name="M:FinalProject.Lawnmower.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements the lawnmowers collision functionality. if collided with a zombie then it activates and starts moving.
+            </summary>
+            <param name="collidedWith">Dynamic entity that the lawnmower has collided with</param>
+        </member>
+        <member name="M:FinalProject.Lawnmower.Update">
+            <summary>
+            If lawnmower is activated this will update its x location
+            </summary>
+        </member>
+        <member name="T:FinalProject.Sun">
+            <summary>
+            Falling sun from the sky that allows the user to gain a boost of money when clicked.
+            </summary>
+        </member>
+        <member name="F:FinalProject.Sun._endHeight">
+            <summary>
+            Final y location of the sun. Lets the class know when to stop moving
+            </summary>
+        </member>
+        <member name="F:FinalProject.Sun._dead">
+            <summary>
+            if the entity has been clicked on then it is marked as dead and removed at the next game loop
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sun.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. initialises the sun to a height above the game screen for it to fall onto the map.
+            </summary>
+            <param name="x">x coordinate of sun</param>
+            <param name="y">y coordinate of sun</param>
+        </member>
+        <member name="M:FinalProject.Sun.Draw">
+            <summary>
+            Renders the sun to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sun.IsAt(System.Single,System.Single)">
+            <summary>
+            Boolean retuning if a point is found on sun
+            </summary>
+            <param name="x">x coordinate of desired point</param>
+            <param name="y">y coordinate of desired point</param>
+            <returns>retruns boolean of if the point is found on the sun</returns>
+        </member>
+        <member name="M:FinalProject.Sun.IsDead">
+            <summary>
+            Boolean dependant of if the sun needs to removed on the next game loop
+            </summary>
+            <returns>returns boolean on if the sun is dead or not</returns>
+        </member>
+        <member name="M:FinalProject.Sun.OnClick">
+            <summary>
+            Implements the suns click functionality. adds money to players wallet and kills the sun for the next game loop
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sun.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Sun does not collide with any entities
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sun.Update">
+            <summary>
+            Updates the suns location. will fall from the sky until it has hit its final chosen cell
+            </summary>
+        </member>
+        <member name="T:FinalProject.DebugController">
+            <summary>
+            Controlls the debug functionality of the game when run in debug mode. allowing the player to override gameplay
+            </summary>
+        </member>
+        <member name="M:FinalProject.DebugController.#ctor">
+            <summary>
+            Constructor. Nothing is required here
+            </summary>
+        </member>
+        <member name="T:FinalProject.Game">
+            <summary>
+            Main game controller class. manages the game loop, all entity engines and gui elements.
+            </summary>
+        </member>
+        <member name="M:FinalProject.Game.#ctor">
+            <summary>
+            Constructor. Intitialises all relevant singleton classes and creates base gui objects required on game startup.
+            </summary>
+        </member>
+        <member name="M:FinalProject.Game.Run">
+            <summary>
+            Runs the game loop, handles calling all updaters, renderers and collision engines
+            </summary>
+        </member>
+        <member name="T:FinalProject.GameOverScreen">
+            <summary>
+            Basic GameOver Screen with a quit game button
+            </summary>
+        </member>
+        <member name="M:FinalProject.GameOverScreen.Run">
+            <summary>
+            Runs the game over screen draw update loop until either the window is closed or a the game exit button is pressed
+            </summary>
+        </member>
+        <member name="T:FinalProject.IntroScreen">
+            <summary>
+            Simple introScreen class that allows the user to start the game with the click of a button
+            </summary>
+        </member>
+        <member name="M:FinalProject.IntroScreen.#ctor">
+            <summary>
+            Constructor. Creates singleton instance for the timekeeper
+            </summary>
+        </member>
+        <member name="M:FinalProject.IntroScreen.Run">
+            <summary>
+            Runs the intro screen game loop. Will play a simple zombie animation until the player clicks the start game button
+            </summary>
+        </member>
+        <member name="T:FinalProject.SunEngine">
+            <summary>
+            Controls the automation of sun creation within the game.
+            </summary>
+        </member>
+        <member name="F:FinalProject.SunEngine.rnd">
+            <summary>
+            Controls which cell is chosen at random
+            </summary>
+        </member>
+        <member name="F:FinalProject.SunEngine._lastSunRain">
+            <summary>
+            the Time the last sun fell from the sky
+            </summary>
+        </member>
+        <member name="M:FinalProject.SunEngine.#ctor">
+            <summary>
+            Constructor. Initialises the sun engine, rains sun immediately giving the player a starting money boost.
+            </summary>
+        </member>
+        <member name="M:FinalProject.SunEngine.RainSun">
+            <summary>
+            Creates a new sun in the game, choosing a random game cell on the map.
+            </summary>
+        </member>
+        <member name="M:FinalProject.SunEngine.Update">
+            <summary>
+            Updates the engine, every 10,000 game ticks a new sun will fall
+            </summary>
+        </member>
+        <member name="T:FinalProject.TimeKeeper">
+            <summary>
+            Controls the time used by entities every game loop time will be incremented by 1.
+            Uses Singleton Pattern
+            </summary>
+        </member>
+        <member name="F:FinalProject.TimeKeeper._instance">
+            <summary>
+            Singleton instance of timekeeper
+            </summary>
+        </member>
+        <member name="P:FinalProject.TimeKeeper.Ticks">
+            <summary>
+            Returns Current Game Ticks
+            </summary>
+        </member>
+        <member name="M:FinalProject.TimeKeeper.CreateInstance">
+            <summary>
+            Creates new singleton instance of timekeeper
+            </summary>
+        </member>
+        <member name="M:FinalProject.TimeKeeper.GetInstance">
+            <returns>
+            Returns singleton instance of the timekeeper
+            </returns>
+        </member>
+        <member name="M:FinalProject.TimeKeeper.#ctor">
+            <summary>
+            Initialises TimeKeeper with game ticks starting from 0
+            </summary>
+        </member>
+        <member name="M:FinalProject.TimeKeeper.Increment">
+            <summary>
+            Increments Game Ticks, is called by game engine class
+            </summary>
+        </member>
+        <member name="T:FinalProject.ZombieEngine">
+            <summary>
+            Zombie Engine operates the automated spawning of zombies within the game
+            </summary>
+        </member>
+        <member name="F:FinalProject.ZombieEngine.rnd">
+            <summary>
+            Controls the random number chosen, dictating the gap between zombie spawns
+            </summary>
+        </member>
+        <member name="F:FinalProject.ZombieEngine._lastZombieTime">
+            <summary>
+            Time at last zombie spawn
+            </summary>
+        </member>
+        <member name="F:FinalProject.ZombieEngine._currentZombieDelay">
+            <summary>
+            Current delay time between zombie spawns
+            </summary>
+        </member>
+        <member name="F:FinalProject.ZombieEngine._round">
+            <summary>
+            Current zombie round
+            </summary>
+        </member>
+        <member name="M:FinalProject.ZombieEngine.#ctor">
+            <summary>
+            Constructor. Initialises the first zombie delay
+            </summary>
+        </member>
+        <member name="M:FinalProject.ZombieEngine.MakeZombie(System.Int32)">
+            <summary>
+            Creates new zombies on the map. passed a number and will create that many zombies, each in seperate lanes
+            </summary>
+            <param name="number">number of zombie to be created (Between 1 and 4)</param>
+        </member>
+        <member name="M:FinalProject.ZombieEngine.Update">
+            <summary>
+            Updates the zombie engine. checks if criteria is met to create new zombies
+            </summary>
+        </member>
+        <member name="T:FinalProject.IClickable">
+            <summary>
+            Interface defining entities that have some interactive capability that can be clicked on
+            </summary>
+        </member>
+        <member name="M:FinalProject.IClickable.OnClick">
+            <summary>
+            Implents the functionality of what an entity should do on a click
+            </summary>
+        </member>
+        <member name="M:FinalProject.IClickable.IsAt(System.Single,System.Single)">
+            <summary>
+            Returns boolean depending of if an entity is found at a specific point
+            </summary>
+            <param name="x">x coordinate in question</param>
+            <param name="y">y coordinate in question</param>
+            <returns>returns boolean of if the entity is at a point</returns>
+        </member>
+        <member name="T:FinalProject.ITool">
+            <summary>
+            Defines what a tool requires.
+            Tools are what defines what the player is trying to achieve in the game and has the game entities interact in an appropiate way
+            </summary>
+        </member>
+        <member name="T:FinalProject.Plant">
+            <summary>
+            Defines the base plant class that all other child classes will be derived from
+            </summary>
+        </member>
+        <member name="F:FinalProject.Plant._removedRequested">
+            <summary>
+            boolean dependant on if the plant has been manually requested to be removed from the game. this is done with the shovel tool.
+            </summary>
+        </member>
+        <member name="P:FinalProject.Plant.Health">
+            <summary>
+            Health of plant
+            </summary>
+        </member>
+        <member name="M:FinalProject.Plant.#ctor(System.Single,System.Single,FinalProject.EntityName)">
+            <summary>
+            Price of plant
+            </summary>
+        </member>
+        <member name="M:FinalProject.Plant.IsDead">
+            <summary>
+            Checks if plant is alive
+            </summary>
+            <returns>returns boolean depending on plants health</returns>
+        </member>
+        <member name="M:FinalProject.Plant.Kill">
+            <summary>
+            if plant is selected with a shovel then it sets remove requested property to true and will be deleted at the next game loop
+            </summary>
+        </member>
+        <member name="T:FinalProject.SnowShooter">
+            <summary>
+            A plant type that shoots snow bullets that slow zombies.
+            </summary>
+        </member>
+        <member name="F:FinalProject.SnowShooter._timeAtLastShot">
+            <summary>
+            Last time the plant object shot a bullet
+            </summary>
+        </member>
+        <member name="P:FinalProject.SnowShooter.FireSpeed">
+            <summary>
+            Controlls how fast the plant's bullets travel
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooter.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Initialises the snow shooter objects fields
+            </summary>
+            <param name="x">X Coordinate of Plant</param>
+            <param name="y">Y Coordinate of Plant</param>
+        </member>
+        <member name="M:FinalProject.SnowShooter.Update">
+            <summary>
+            Updates the plant object.
+            Decides if the plant object needs to shoot a bullet depedning on its last shot time
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooter.Draw">
+            <summary>
+            Draws Plant Object to screen. if the plant has been recently hit a secondary bitmap will be drawn
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooter.Shoot">
+            <summary>
+            Shoots a bullet from plant object and resets the shot clock
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooter.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements the collision methods of the plant object
+            </summary>
+            <param name="collidedWith">passed the dynamic entity that has collided with the plant object</param>
+        </member>
+        <member name="T:FinalProject.StandardShooter">
+            <summary>
+            Most Basic Plant type. Shoots standard bullets
+            </summary>
+        </member>
+        <member name="F:FinalProject.StandardShooter._timeAtLastShot">
+            <summary>
+            Last time the plant object shot a bullet
+            </summary>
+        </member>
+        <member name="P:FinalProject.StandardShooter.FireSpeed">
+            <summary>
+            Controlls how fast the plants bullets travel
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooter.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Initialises the standard shooter objects fields
+            </summary>
+            <param name="x">X Coordinate of Plant</param>
+            <param name="y">Y Coordinate of Plant</param>
+        </member>
+        <member name="M:FinalProject.StandardShooter.Update">
+            <summary>
+            Updates the plant object.
+            Decides if the plant object needs to shoot a bullet
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooter.Draw">
+            <summary>
+            Draws Plant Object to screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooter.Shoot">
+            <summary>
+            Shoots a bullet from plant object and resets the shot clock
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooter.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements the collision methods of the plant object
+            </summary>
+            <param name="collidedWith">passed the dynamic entity that has collided with the plant object</param>
+        </member>
+        <member name="T:FinalProject.Sunflower">
+            <summary>
+            Passive plant type that is able to generate its own sun that can be collected by the player on click.
+            </summary>
+        </member>
+        <member name="F:FinalProject.Sunflower._hasSun">
+            <summary>
+            Boolean dependant on if the plant has reached the criteria for sun creation
+            </summary>
+        </member>
+        <member name="F:FinalProject.Sunflower._sunValue">
+            <summary>
+            The suns monetary value to be added to player wallet on click
+            </summary>
+        </member>
+        <member name="F:FinalProject.Sunflower._timeAtLastCashout">
+            <summary>
+            The last game tick that the plant produced sun
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sunflower.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Intialises the sunflower's heath location and sun information
+            </summary>
+            <param name="x">x coordinate of sunflower</param>
+            <param name="y">y coordinate of sunflower</param>
+        </member>
+        <member name="M:FinalProject.Sunflower.Draw">
+            <summary>
+            Renders the sunflower object to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sunflower.IsAt(System.Single,System.Single)">
+            <summary>
+            returns. Boolean of if the sunflower is found at a given coordinate 
+            </summary>
+            <param name="x">x coordinate in question</param>
+            <param name="y">y coordinate in question</param>
+            <returns>returns 1 if found at coordinate and 0 if not</returns>
+        </member>
+        <member name="M:FinalProject.Sunflower.OnClick">
+            <summary>
+            Implements sunflower click functionality. On a click it removes any sun and adds its value to the players wallet
+            </summary>
+        </member>
+        <member name="M:FinalProject.Sunflower.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements the sunflowers on collision functionality. When found to collide with a zombie it takes damage and sets off the damaged bitmap
+            </summary>
+            <param name="collidedWith">dynamic entity sunflower collided with</param>
+        </member>
+        <member name="M:FinalProject.Sunflower.Update">
+            <summary>
+            Updates sunflower state. checks if it has reached sun generation criteria
+            </summary>
+        </member>
+        <member name="T:FinalProject.Wallnut">
+            <summary>
+            A tank like plant that deals no damage but takes many hits
+            </summary>
+        </member>
+        <member name="M:FinalProject.Wallnut.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Initialises the snow shooter objects fields
+            </summary>
+            <param name="x">X Coordinate of Plant</param>
+            <param name="y">Y Coordinate of Plant</param>
+        </member>
+        <member name="M:FinalProject.Wallnut.Draw">
+            <summary>
+            Draws Plant Object to screen. if the plant has been recently hit a secondary bitmap will be drawn
+            </summary>
+        </member>
+        <member name="M:FinalProject.Wallnut.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements the collision methods of the plant object
+            </summary>
+            <param name="collidedWith">passed the dynamic entity that has collided with the plant object</param>
+        </member>
+        <member name="M:FinalProject.Wallnut.Update">
+            <summary>
+            This plant does not require updating
+            </summary>
+        </member>
+        <member name="T:FinalProject.PlayerData">
+            <summary>
+            Player contains all the player state information such as money, points and game over status.
+            implements singleton pattern
+            </summary>
+        </member>
+        <member name="F:FinalProject.PlayerData._instance">
+            <summary>
+            singleton instance of player
+            </summary>
+        </member>
+        <member name="P:FinalProject.PlayerData.Money">
+            <summary>
+            Players current money amount
+            </summary>
+        </member>
+        <member name="P:FinalProject.PlayerData.GameOver">
+            <summary>
+            Boolean dependant on if a game over condition has been reached
+            </summary>
+        </member>
+        <member name="P:FinalProject.PlayerData.Points">
+            <summary>
+            Current in game point of the player
+            </summary>
+        </member>
+        <member name="M:FinalProject.PlayerData.#ctor">
+            <summary>
+            Constructor. Intitialises the players money points and game state staus.
+            </summary>
+        </member>
+        <member name="M:FinalProject.PlayerData.CreateInstance">
+            <summary>
+            Creates new singleton instance of the player
+            </summary>
+        </member>
+        <member name="M:FinalProject.PlayerData.GetInstance">
+            <summary>
+            Gets singleton instnace of the player
+            </summary>
+            <returns>retruns singleton insatnce</returns>
+        </member>
+        <member name="M:FinalProject.PlayerData.Draw">
+            <summary>
+            Renders Player Data to the screen
+            </summary>
+        </member>
+        <member name="T:FinalProject.Icon">
+            <summary>
+            Icons are the clickable entites within the toolbar that select a plant to be placed on the map. 
+            </summary>
+        </member>
+        <member name="P:FinalProject.Icon.Selected">
+            <summary>
+            Boolean of if the given icon is selected or not
+            </summary>
+        </member>
+        <member name="M:FinalProject.Icon.#ctor(System.Single,System.Single,FinalProject.EntityName)">
+            <summary>
+            Constructor. Initialises the icon object
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y coordinate of icon</param>
+            <param name="bitmapName">bitmap name of icon</param>
+        </member>
+        <member name="M:FinalProject.Icon.Draw">
+            <summary>
+            Renders the Icon to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.Icon.OnClick">
+            <summary>
+            Implements the icons click functionality
+            </summary>
+        </member>
+        <member name="M:FinalProject.Icon.IsAt(System.Single,System.Single)">
+            <summary>
+            Boolean retuning if a point is found on an icon
+            </summary>
+            <param name="x">x coordinate of desired point</param>
+            <param name="y">y coordinate of desired point</param>
+            <returns>retruns boolean of if the point is found on the icon</returns>
+        </member>
+        <member name="T:FinalProject.ShovelIcon">
+            <summary>
+            Icon for Plant removal tool
+            </summary>
+        </member>
+        <member name="M:FinalProject.ShovelIcon.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. uses icon base contructor to initialise object
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y corrdinate of icon</param>
+        </member>
+        <member name="M:FinalProject.ShovelIcon.OnClick">
+            <summary>
+            Implements the shovels onclick functionality.
+            Sets the current tool to plant removal and subscribes to next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.ShovelIcon.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Implements mouse click functionality. unsubcribes from mouse click and resets tool to entity selection 
+            </summary>
+            <param name="mouseButton">The splashkit mousebutton that was pressed</param>
+        </member>
+        <member name="T:FinalProject.SnowShooterIcon">
+            <summary>
+            Icon for snow shooter plant class
+            </summary>
+        </member>
+        <member name="F:FinalProject.SnowShooterIcon._plantType">
+            <summary>
+            Plant type of the given icon
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooterIcon.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Intitialises the snow shooter icon
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y coordinate of icon</param>
+        </member>
+        <member name="M:FinalProject.SnowShooterIcon.OnClick">
+            <summary>
+            Implements the Icons onclick functionality.
+            Sets the current tool to plant placement and subscribes to next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.SnowShooterIcon.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Implements mouse click functionality. unsubcribes from mouse click and resets tool to entity selection 
+            </summary>
+            <param name="mouseButton">The splashkit mousebutton that was pressed</param>
+        </member>
+        <member name="T:FinalProject.StandardShooterIcon">
+            <summary>
+            Icon for standard shooter plant
+            </summary>
+        </member>
+        <member name="F:FinalProject.StandardShooterIcon._plantType">
+            <summary>
+            Plant type of the given icon
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooterIcon.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Intitialises the Standard shooter icon
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y coordinate of icon</param>
+        </member>
+        <member name="M:FinalProject.StandardShooterIcon.OnClick">
+            <summary>
+            Implements the Icons onclick functionality.
+            Sets the current tool to plant placement and subscribes to next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardShooterIcon.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Implements mouse click functionality. unsubcribes from mouse click and resets tool to entity selection 
+            </summary>
+            <param name="mouseButton">The splashkit mousebutton that was pressed</param>
+        </member>
+        <member name="T:FinalProject.SunflowerIcon">
+            <summary>
+            Icon for sunflower plant
+            </summary>
+        </member>
+        <member name="F:FinalProject.SunflowerIcon._plantType">
+            <summary>
+            Plant type of the given icon
+            </summary>
+        </member>
+        <member name="M:FinalProject.SunflowerIcon.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Intitialises the Sunflower shooter icon
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y coordinate of icon</param>
+        </member>
+        <member name="M:FinalProject.SunflowerIcon.OnClick">
+            <summary>
+            Implements the Icons onclick functionality.
+            Sets the current tool to plant placement and subscribes to next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.SunflowerIcon.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Implements mouse click functionality. unsubcribes from mouse click and resets tool to entity selection 
+            </summary>
+            <param name="mouseButton">The splashkit mousebutton that was pressed</param>
+        </member>
+        <member name="T:FinalProject.Toolbar">
+            <summary>
+            Toolbar contains the list of icons at the bottom of the screen that the player interacts with
+            </summary>
+        </member>
+        <member name="F:FinalProject.Toolbar._iconList">
+            <summary>
+            List of icons for the game
+            </summary>
+        </member>
+        <member name="M:FinalProject.Toolbar.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Initialises the toolbar and icons.
+            </summary>
+            <param name="x">x location of toolbar</param>
+            <param name="y">y location of toolbar</param>
+        </member>
+        <member name="M:FinalProject.Toolbar.Draw">
+            <summary>
+            Icons are responsible for drawing themselves so this isnt necessary
+            </summary>
+        </member>
+        <member name="T:FinalProject.WallnutIcon">
+            <summary>
+            Icon for wallnut plant
+            </summary>
+        </member>
+        <member name="F:FinalProject.WallnutIcon._plantType">
+            <summary>
+            Plant type of the given icon
+            </summary>
+        </member>
+        <member name="M:FinalProject.WallnutIcon.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor. Intitialises the Wallnut icon
+            </summary>
+            <param name="x">x coordinate of icon</param>
+            <param name="y">y coordinate of icon</param>
+        </member>
+        <member name="M:FinalProject.WallnutIcon.OnClick">
+            <summary>
+            Implements the Icons onclick functionality.
+            Sets the current tool to plant placement and subscribes to next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.WallnutIcon.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Implements mouse click functionality. unsubcribes from mouse click and resets tool to entity selection 
+            </summary>
+            <param name="mouseButton">The splashkit mousebutton that was pressed</param>
+        </member>
+        <member name="T:FinalProject.InputManager">
+            <summary>
+            Input Manager of player inputs. Event based system that tools are able to subscribe to depending on their controls.
+            Uses Singleton pattern.
+            </summary>
+        </member>
+        <member name="T:FinalProject.InputManager.OnMouseClicked">
+            <summary>
+            Delegate method for mouse click methods to be implemented by tools
+            </summary>
+            <param name="mouseButton">Splashkit mousebutton enum</param>
+        </member>
+        <member name="E:FinalProject.InputManager.eventOnMouseClick">
+            <summary>
+            Mouseclick event caused by player clicking mouse
+            </summary>
+        </member>
+        <member name="F:FinalProject.InputManager._instance">
+            <summary>
+            singleton instance of the input manager
+            </summary>
+        </member>
+        <member name="M:FinalProject.InputManager.#ctor">
+            <summary>
+            Constructor. Inialises input manager
+            </summary>
+        </member>
+        <member name="M:FinalProject.InputManager.CreateInstance">
+            <summary>
+            creates new singleton instance of input manager
+            </summary>
+        </member>
+        <member name="M:FinalProject.InputManager.GetInstance">
+            <summary>
+            returns singleton instance of input manager
+            </summary>
+            <returns>returns singleton instance</returns>
+        </member>
+        <member name="M:FinalProject.InputManager.Update">
+            <summary>
+            Update the input manager.
+            Checks for mouse input
+            </summary>
+        </member>
+        <member name="M:FinalProject.InputManager.SubscribeToMouseClickEvent(FinalProject.InputManager.OnMouseClicked)">
+            <summary>
+            Allows tools and other classes to subscribe to mouse click
+            </summary>
+            <param name="handler">function to evoke during mouse click</param>
+        </member>
+        <member name="M:FinalProject.InputManager.UnsubscribeToMouseClickEvent(FinalProject.InputManager.OnMouseClicked)">
+            <summary>
+            Allows tools and other classes to subscribe to mouse click
+            </summary>
+            <param name="handler">function to evoke during mouse click</param>
+        </member>
+        <member name="T:FinalProject.TEntitySelection">
+            <summary>
+            Entity selection tool. When active will activate onClick method of any iclickable objects under curson when window is clicked.
+            </summary>
+        </member>
+        <member name="M:FinalProject.TEntitySelection.ToolActivate">
+            <summary>
+            Activates tool. subscribes to mouse click event so at next click any entities under click are activated.
+            </summary>
+        </member>
+        <member name="M:FinalProject.TEntitySelection.ToolDeactivate">
+            <summary>
+            Deactivates tool. Unsubscibes tool to mouse click event
+            </summary>
+        </member>
+        <member name="M:FinalProject.TEntitySelection.ToolUpdate">
+            <summary>
+            The entity selection tool has no need to update
+            </summary>
+        </member>
+        <member name="M:FinalProject.TEntitySelection.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            Clicks any clickable entities under mouse after a click.
+            </summary>
+            <param name="mouseButton">Splashkit mousebutton enum</param>
+        </member>
+        <member name="T:FinalProject.ToolManager">
+            <summary>
+            Toolmanager controls what tool is active at a given time.
+            </summary>
+        </member>
+        <member name="F:FinalProject.ToolManager._tools">
+            <summary>
+            List of the games tools and their type
+            </summary>
+        </member>
+        <member name="F:FinalProject.ToolManager._currentTool">
+            <summary>
+            current active tool
+            </summary>
+        </member>
+        <member name="F:FinalProject.ToolManager._instance">
+            <summary>
+            Singleton insatnce of tool manager
+            </summary>
+        </member>
+        <member name="M:FinalProject.ToolManager.GetInstance">
+            <summary>
+            Gets the singleton instance of the tool manager.
+            </summary>
+            <returns>retuns singleton insatance of the tool manager</returns>
+        </member>
+        <member name="M:FinalProject.ToolManager.#ctor">
+            <summary>
+            Constructor. Initialises the game tools
+            </summary>
+        </member>
+        <member name="M:FinalProject.ToolManager.Update">
+            <summary>
+            updates the current tool
+            </summary>
+        </member>
+        <member name="M:FinalProject.ToolManager.SetActiveTool(FinalProject.ToolType)">
+            <summary>
+            Sets a new active tool
+            </summary>
+            <param name="toolType">enum of tool to be made active</param>
+            <returns>returns the set tool</returns>
+        </member>
+        <member name="T:FinalProject.TPlantPlacement">
+            <summary>
+            Plant placement tool. is activated after the player clicks on a plant icon and lets the user put plants on the game map.
+            </summary>
+        </member>
+        <member name="F:FinalProject.TPlantPlacement.plantType">
+            <summary>
+            enum of the plant type that the user clicked on and wants to place down
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantPlacement.ToolActivate">
+            <summary>
+            activates the plant placement tool and subscribes to the next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantPlacement.ToolDeactivate">
+            <summary>
+            Deactivates the tool and has the tool stop listening to user input
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantPlacement.ToolUpdate">
+            <summary>
+            when tool is active this tool has the bitmap of the plant that is to be placed hover under the mouse until the user have chosen a final destination for the plant
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantPlacement.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            implementation of game plant placement. This finds the cell under the mouse and checks if its empty and the user has enough money. only then will it allow a new plant to be placed.
+            </summary>
+            <param name="mouseButton"></param>
+        </member>
+        <member name="T:FinalProject.TPlantRemoval">
+            <summary>
+            Plant removal tool. is activated after the shovel has been selected and has concluded once a subsequent mouse click has taken place.
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantRemoval.ToolActivate">
+            <summary>
+            activates the plant removal tool and subscribes to the next mouse click
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantRemoval.ToolDeactivate">
+            <summary>
+            Deactivates the tool and stops the tool from listenting to future events
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantRemoval.ToolUpdate">
+            <summary>
+            This tool updates similar to the plant placement tool and has the shovel bitmap hover under the cursor until a choice is made
+            </summary>
+        </member>
+        <member name="M:FinalProject.TPlantRemoval.OnMouseClicked(SplashKitSDK.MouseButton)">
+            <summary>
+            implements the tools functionality. Unoccupys the cell under the cursor and removes any plants found.
+            </summary>
+            <param name="mouseButton">Splashkit mousebutton enum</param>
+        </member>
+        <member name="T:FinalProject.ConeZombie">
+            <summary>
+            More difficult zombie enemy with more health
+            </summary>
+        </member>
+        <member name="M:FinalProject.ConeZombie.#ctor(System.Single)">
+            <summary>
+            Constructor. Initialises a Cone Zombie Entity
+            </summary>
+            <param name="y">Y Coordinate of Zombie</param>
+        </member>
+        <member name="M:FinalProject.ConeZombie.Draw">
+            <summary>
+            Draws the zombie object to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.ConeZombie.Update">
+            <summary>
+            Updates Zombie collision
+            </summary>
+        </member>
+        <member name="T:FinalProject.StandardZombie">
+            <summary>
+            Most Basic Zombie Enemy
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardZombie.#ctor(System.Single)">
+            <summary>
+            Constructor. Initialises a Standard Zombie Entity
+            </summary>
+            <param name="y">Y Coordinate of Zombie</param>
+        </member>
+        <member name="M:FinalProject.StandardZombie.Draw">
+            <summary>
+            Draws the zombie object to the screen
+            </summary>
+        </member>
+        <member name="M:FinalProject.StandardZombie.Update">
+            <summary>
+            Updates Zombie collision
+            </summary>
+        </member>
+        <member name="T:FinalProject.Zombie">
+            <summary>
+            Abstract Zombie Class that serves as a base for all Zombie 
+            </summary>
+        </member>
+        <member name="M:FinalProject.Zombie.#ctor(System.Single,FinalProject.EntityName)">
+            <summary>
+            Constructor. Initialises the Health of the zombie so that it will not be immediately found dead
+            </summary>
+            <param name="y">Y Coordinate of Entitiy</param>
+            <param name="bitmapName">Bitmap of the relevant zombie entitiy</param>
+        </member>
+        <member name="P:FinalProject.Zombie.Health">
+            <summary>
+            Health of Zombie
+            </summary>
+        </member>
+        <member name="M:FinalProject.Zombie.IsDead">
+            <summary>
+            Checks if Zombie is alive
+            </summary>
+            <returns>returns boolean depending on plants health</returns>
+        </member>
+        <member name="M:FinalProject.Zombie.ReadyToAttack">
+            <summary>
+            Boolean dependand on if the zombie has met the attack criteria and is ready to attack again
+            </summary>
+            <returns>returns 1 if zombie is ready to attack and 0 if not</returns>
+        </member>
+        <member name="M:FinalProject.Zombie.OnCollision(FinalProject.DynamicEntity)">
+            <summary>
+            Implements collision between zombies and other entities
+            </summary>
+            <param name="collidedWith">Entity that zombie collided with</param>
+        </member>
+        <member name="T:SplashKitSDK.PointerWrapper">
+            <summary>
+            Wraps a pointer to a SplashKit resource
+            </summary>
+        </member>
+        <member name="F:SplashKitSDK.PointerWrapper._ptrRegister">
+            <summary>
+            The ptrRegistry is responsible for maintaining copies of all wrapped SplashKit pointers.
+            </summary>
+        </member>
+        <member name="T:SplashKitSDK.PointerWrapper.ReleaserClass">
+            <summary>
+            "Super Dodgy" (but correct) work around for the fact that C# has no unload methods for classes.
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.Dispose">
+            <summary>
+            Clean up the native resources used by this resource.
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.ToString">
+            <summary>
+            Returns a string representation of the resource. This is in the format
+            "Type @address".
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.Equals(System.Object)">
+            <summary>
+            Determines if the PointerWrappers is equal to the passed in object.
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.GetHashCode">
+            <summary>
+            Returns the hash code of the PointerWrapper based on what it points to.
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.op_Equality(SplashKitSDK.PointerWrapper,SplashKitSDK.PointerWrapper)">
+            <summary>
+            Determines if two PointerWrappers are equal.
+            </summary>
+        </member>
+        <member name="M:SplashKitSDK.PointerWrapper.op_Inequality(SplashKitSDK.PointerWrapper,SplashKitSDK.PointerWrapper)">
+            <summary>
+            Determines if two PointerWrappers are not equal.
+            </summary>
+        </member>
+    </members>
+</doc>
