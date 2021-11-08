@@ -583,7 +583,33 @@
         </member>
         <member name="M:FinalProject.DebugController.#ctor">
             <summary>
-            Constructor. Nothing is required here
+            Constructor. Adds all relevent debug keys to the debug dictionary and initialises variables
+            </summary>
+        </member>
+        <member name="M:FinalProject.DebugController.Update">
+            <summary>
+            Updates the Debug controller. Loops through all valid keycodes and invokes the delegate attached
+            </summary>
+        </member>
+        <member name="M:FinalProject.DebugController.SpawnZombie(System.Int32)">
+            <summary>
+            Force Spawns Zombie at Required Lane
+            </summary>
+            <param name="lane">Lane that Zobmie is to be Spawned</param>
+        </member>
+        <member name="M:FinalProject.DebugController.ToggleZombie">
+            <summary>
+            Toggles What Zombie Type is to be spawned on a debug force spawn
+            </summary>
+        </member>
+        <member name="M:FinalProject.DebugController.MakeMoney">
+            <summary>
+            Force Adds money to player wallet
+            </summary>
+        </member>
+        <member name="M:FinalProject.DebugController.FastForward">
+            <summary>
+            Skips 100 game ticks
             </summary>
         </member>
         <member name="T:FinalProject.Game">

@@ -19,15 +19,16 @@ namespace FinalProject
         /// </summary>
         public DebugController()
         {
-            Console.WriteLine("\n\nDEBUG MODE ACTIVATED:" +
-                                    "\n\tKey:\t\tAction:" +
-                                    "\n\tNum1\t\tSpawn Zombie In Lane 0" +
-                                    "\n\tNum2\t\tSpawn Zombie In Lane 1" +
-                                    "\n\tNum3\t\tSpawn Zombie In Lane 2" +
-                                    "\n\tNum4\t\tSpawn Zombie In Lane 3" +
-                                    "\n\tNum5\t\tAdd 100 Money To Wallet" +
-                                    "\n\tTabKey\t\tToggle Zombie Spawn Type" +
-                                    "\n\tSpaceKey\tSkip 100 Game Ticks\n");
+            Console.WriteLine("\n\nDEBUG MODE ACTIVATED:"
+                              + "\n\tKey:\t\tAction:"
+                              + "\n\tNum1\t\tSpawn Zombie In Lane 0"
+                              + "\n\tNum2\t\tSpawn Zombie In Lane 1"
+                              + "\n\tNum3\t\tSpawn Zombie In Lane 2"
+                              + "\n\tNum4\t\tSpawn Zombie In Lane 3"
+                              + "\n\tNum5\t\tAdd 100 Money To Wallet"
+                              + "\n\tNum6\t\tCreate Falling Sun"
+                              + "\n\tTabKey\t\tToggle Zombie Spawn Type"
+                              + "\n\tSpaceKey\tSkip 100 Game Ticks\n");
             _keytypeDict = new();
             _zombieToggle = false;
             _keytypeDict.Add(KeyCode.Num1Key,() => this.SpawnZombie(0));
@@ -36,6 +37,7 @@ namespace FinalProject
             _keytypeDict.Add(KeyCode.Num4Key, () => this.SpawnZombie(3));
             _keytypeDict.Add(KeyCode.TabKey, () => this.ToggleZombie());
             _keytypeDict.Add(KeyCode.Num5Key, () => this.MakeMoney());
+            _keytypeDict.Add(KeyCode.Num6Key, () => this.CreateSun());
             _keytypeDict.Add(KeyCode.SpaceKey, () => this.FastForward());
         }
         /// <summary>
@@ -102,6 +104,13 @@ namespace FinalProject
                 EntityUpdater.GetInstance().Update();
                 TimeKeeper.GetInstance().Increment();
             }
+        }
+        private void CreateSun()
+        {
+            Random rnd = new Random();
+            Console.WriteLine("DEBUG: Falling Sun Created");
+            Cell c = EntityRepository.GetInstance().GetCell(rnd.Next(4),rnd.Next(9));
+            EntityFactory.SpawnSun(c.X,c.Y);
         }
     }
 }
